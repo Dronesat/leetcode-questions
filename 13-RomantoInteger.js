@@ -14,17 +14,24 @@ const romanToIntMap = {
 };
 
 var romanToInt = function(s) {
-    splitRoman = s.split('');
     let result = 0;
     for (i = 0; i < s.length; i++) {
-        if (splitRoman[i+1] == 'V'){
-            result = romanToIntMap['V'] - romanToIntMap['I'];
+        currentVal = romanToIntMap[s[i]];
+        nextVal = romanToIntMap[s[i+1]];
+
+        // Check if need to subtract
+        if (['I','X','C'].includes(s[i]) && nextVal > currentVal) {
+            result += (nextVal - currentVal);
+            i++; //Skip the next character since it's already processed
         } else {
-            result += romanToIntMap[splitRoman[i]];
+            result += currentVal;
         }
-        
+        //console.log(s[i]+" - total: "+result)
     }
     return result;
 };
 
-console.log(romanToInt("XIV"));
+console.log(romanToInt("XLIX"));
+console.log(romanToInt("MCMXCIV"));
+console.log(romanToInt("LVIII"));
+console.log(romanToInt("III"));    
